@@ -3,6 +3,7 @@
   "name": "marketing",
   "compatibility_date": "2026-09-20",
   "main": "worker/index.ts",
+  "vars": {},
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",

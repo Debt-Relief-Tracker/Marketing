@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout
+  title="Donate"
+  description="The hosted Debt Relief Tracker app is free to use and supported entirely by donations, with full transparency into how funds are used."
+>
+  <section class="mx-auto max-w-3xl px-6 py-16">
+    <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Support {SITE.name}</h1>
+    <p class="mt-4 text-lg text-slate-600">
+      The hosted app at{' '}
+      <a href={SITE.appUrl} class="font-medium text-brand-600 hover:underline">
+        {SITE.appUrl.replace('https://', '')}
+      </a>{' '}
+      is, and always will be, free to use. Running it costs money, so if it's helped you, donations
+      are welcome — but never required.
+    </p>
+
+    <div class="mt-10 rounded-xl border border-relief-200 bg-relief-50 p-6">
+      <h2 class="text-lg font-semibold text-relief-800">We believe in full transparency</h2>
+      <p class="mt-2 text-relief-800">
+        Every donation this project receives will be publicly visible. This project asks people to
+        trust it with sensitive financial data, so the money that keeps it running should be just as
+        open as the code itself.
+      </p>
+      <!-- TODO: link public donation ledger/transparency page once donation platform is chosen -->
+      <p class="mt-2 text-sm text-relief-700">
+        The public donation ledger will be linked here once it's live.
+      </p>
+    </div>
+
+    <!-- TODO: add GitHub Sponsors / Patreon / Ko-fi links once accounts exist -->
+    <div class="mt-10 space-y-4">
+      <h2 class="text-lg font-semibold text-slate-900">Ways to donate</h2>
+      <p class="text-slate-600">
+        We're setting up GitHub Sponsors, Patreon, and/or Ko-fi. Donation links will appear here
+        once those accounts are live.
+      </p>
+      <div class="grid gap-4 sm:grid-cols-3">
+        <div class="rounded-lg border border-dashed border-slate-300 p-4 text-center text-sm text-slate-400">
+          GitHub Sponsors — coming soon
+        </div>
+        <div class="rounded-lg border border-dashed border-slate-300 p-4 text-center text-sm text-slate-400">
+          Patreon — coming soon
+        </div>
+        <div class="rounded-lg border border-dashed border-slate-300 p-4 text-center text-sm text-slate-400">
+          Ko-fi — coming soon
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-10 text-sm text-slate-500">
+      Not able to donate? You can still help by{' '}
+      <a href={SITE.repoUrl} class="font-medium text-brand-600 hover:underline">
+        contributing on GitHub
+      </a>{' '}
+      or telling someone else who might find this useful.
+    </p>
+  </section>
+</BaseLayout>

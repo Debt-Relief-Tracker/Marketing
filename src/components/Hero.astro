@@ -1,0 +1,26 @@
+---
+import CTAButton from './CTAButton.astro';
+import { SITE } from '../lib/site';
+---
+
+<section class="mx-auto max-w-6xl px-6 pb-20 pt-16 text-center sm:pt-24">
+  <span class="inline-flex items-center gap-2 rounded-full bg-relief-50 px-4 py-1.5 text-sm font-medium text-relief-700">
+    100% open source &middot; free hosted version available
+  </span>
+
+  <h1 class="mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+    Track your debt payoff plan, without giving up your data
+  </h1>
+
+  <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600">
+    {SITE.name} helps you build a payoff plan and see real progress toward being debt-free. It's
+    fully open source, so you can self-host it or use our free hosted version.
+  </p>
+
+  <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+    <CTAButton href={SITE.appUrl}>Get started free</CTAButton>
+    <CTAButton href={SITE.repoUrl} variant="secondary">
+      View source on GitHub
+    </CTAButton>
+  </div>
+</section>

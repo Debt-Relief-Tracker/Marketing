@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://debtrelief.win/sitemap-index.xml

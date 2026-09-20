@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import { SITE } from '../lib/site';
+
+const reasons = [
+  {
+    title: 'Verify how your data is handled',
+    description:
+      'Debt information is sensitive. Every line of code that touches it is public, so you never have to just take our word for it.',
+  },
+  {
+    title: 'No vendor lock-in',
+    description:
+      'If we disappear tomorrow, the code still works. Fork it, self-host it, or keep using the community version.',
+  },
+  {
+    title: 'Built with the community',
+    description:
+      'Bug reports, feature requests, and pull requests all happen in the open on GitHub.',
+  },
+];
+---
+
+<BaseLayout
+  title="Open Source"
+  description="Debt Relief Tracker is fully open source — self-host it, audit it, or contribute on GitHub."
+>
+  <section class="mx-auto max-w-4xl px-6 py-16">
+    <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Open source, by design</h1>
+    <p class="mt-4 text-lg text-slate-600">
+      {SITE.name} is 100% open source under the MIT license. We think a tool that manages something
+      as personal as your debt should be transparent about exactly what it does.
+    </p>
+
+    <div class="mt-12 space-y-8">
+      {reasons.map((reason) => (
+        <div>
+          <h2 class="text-lg font-semibold text-slate-900">{reason.title}</h2>
+          <p class="mt-2 text-slate-600">{reason.description}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-12 rounded-xl border border-slate-100 bg-slate-50 p-6">
+      <h2 class="text-lg font-semibold text-slate-900">Self-hosting</h2>
+      <p class="mt-2 text-slate-600">
+        Prefer to run your own instance? The repository README walks through setup, configuration,
+        and deployment. If you'd rather skip the setup, the{' '}
+        <a href={SITE.appUrl} class="font-medium text-brand-600 hover:underline">
+          hosted version
+        </a>{' '}
+        runs the exact same code, free of charge.
+      </p>
+    </div>
+
+    <div class="mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+      <CTAButton href={SITE.repoUrl}>View the repository</CTAButton>
+      <CTAButton href="/donate" variant="secondary">
+        Support the project
+      </CTAButton>
+    </div>
+  </section>
+</BaseLayout>

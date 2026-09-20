@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ChangelogList from '../components/ChangelogList.astro';
+import { SITE } from '../lib/site';
+import { getReleases, getRecentCommits } from '../lib/github';
+
+const [releases, commits] = await Promise.all([getReleases(), getRecentCommits()]);
+---
+
+<BaseLayout
+  title="Changelog"
+  description="What's new in Debt Relief Tracker: releases and recent commits, straight from GitHub."
+>
+  <section class="mx-auto max-w-3xl px-6 py-16">
+    <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Changelog</h1>
+    <p class="mt-4 text-lg text-slate-600">
+      Releases and recent commits to{' '}
+      <a href={SITE.repoUrl} class="font-medium text-brand-600 hover:underline">
+        main
+      </a>
+      , in one timeline.
+    </p>
+
+    <div class="mt-12">
+      <ChangelogList releases={releases} commits={commits} />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,47 @@
+---
+import { SITE } from '../lib/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-slate-100 bg-slate-50">
+  <div class="mx-auto max-w-6xl px-6 py-10">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">{SITE.name}</p>
+        <p class="mt-1 max-w-sm text-sm text-slate-500">{SITE.description}</p>
+      </div>
+
+      <div class="flex gap-10 text-sm">
+        <div class="flex flex-col gap-2">
+          <span class="font-semibold text-slate-900">Product</span>
+          <a href="/features" class="text-slate-500 hover:text-slate-900">
+            Features
+          </a>
+          <a href={SITE.appUrl} class="text-slate-500 hover:text-slate-900">
+            Open the app
+          </a>
+          <a href="/changelog" class="text-slate-500 hover:text-slate-900">
+            Changelog
+          </a>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class="font-semibold text-slate-900">Open source</span>
+          <a href="/open-source" class="text-slate-500 hover:text-slate-900">
+            Why open source
+          </a>
+          <a href={SITE.repoUrl} class="text-slate-500 hover:text-slate-900">
+            GitHub repo
+          </a>
+          <a href="/donate" class="text-slate-500 hover:text-slate-900">
+            Donate
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-8 text-xs text-slate-400">
+      &copy; {year} {SITE.name}. Released under the MIT License.
+    </p>
+  </div>
+</footer>

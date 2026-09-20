@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FeatureCard from '../components/FeatureCard.astro';
+import CTAButton from '../components/CTAButton.astro';
+import { SITE } from '../lib/site';
+
+const featureGroups = [
+  {
+    heading: 'Security',
+    items: [
+      {
+        title: 'Bot & brute-force protection',
+        description:
+          'Auth0 blocks automated attacks and high-velocity login attempts using dozens of risk signals — before they ever reach your account.',
+      },
+      {
+        title: 'Breached password detection',
+        description:
+          "If a password you use turns up in a known data breach, it's blocked and you're notified in real time.",
+      },
+      {
+        title: 'Passwordless & adaptive MFA',
+        description:
+          'Sign in with phishing-resistant passkeys, or add multi-factor authentication that adapts to risk signals like new devices or untrusted locations.',
+      },
+      {
+        title: 'Continuous session protection',
+        description:
+          "Your session is monitored for hijacking and suspicious activity the whole time you're logged in, not just at sign-in.",
+      },
+    ],
+  },
+  {
+    heading: 'Plan',
+    items: [
+      {
+        title: 'Multiple payoff strategies',
+        description:
+          'Compare debt avalanche, debt snowball, or a custom priority order to see which gets you debt-free fastest — or cheapest.',
+      },
+      {
+        title: 'Every debt in one place',
+        description:
+          'Credit cards, loans, medical debt, and more — track balances, interest rates, and minimum payments together.',
+      },
+    ],
+  },
+  {
+    heading: 'Track',
+    items: [
+      {
+        title: 'Progress over time',
+        description: 'Visualize balances dropping and project your debt-free date as you go.',
+      },
+      {
+        title: 'Payment history',
+        description: 'Log payments and see exactly how much interest you have saved.',
+      },
+    ],
+  },
+  {
+    heading: 'Own your data',
+    items: [
+      {
+        title: 'Self-hostable',
+        description: 'Run the full app yourself — the same code powering the hosted version.',
+      },
+      {
+        title: 'No lock-in',
+        description: 'Your data stays yours. Export it whenever you want.',
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Features"
+  description="See what the open-source Debt Relief Tracker can do: payoff planning, progress tracking, and full data ownership."
+>
+  <section class="mx-auto max-w-6xl px-6 py-16">
+    <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">
+      Everything you need to get out of debt
+    </h1>
+    <p class="mt-4 max-w-2xl text-lg text-slate-600">
+      {SITE.name} is built to make one thing simple: knowing exactly where you stand, and what to do
+      next.
+    </p>
+
+    <div class="mt-12 space-y-12">
+      {featureGroups.map((group) => (
+        <div>
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-brand-600">
+            {group.heading}
+          </h2>
+          {group.heading === 'Security' && (
+            <p class="mt-2 text-sm text-slate-500">
+              Powered by{' '}
+              <a
+                href="https://auth0.com/platform/login-security"
+                class="font-medium text-brand-600 hover:underline"
+              >
+                Auth0's login security platform
+              </a>{' '}
+              — the same infrastructure used by large-scale platforms to stop bots, credential
+              stuffing, and session hijacking, so we don't have to build that from scratch.
+            </p>
+          )}
+          <div class="mt-4 grid gap-6 sm:grid-cols-2">
+            {group.items.map((item) => (
+              <FeatureCard title={item.title} description={item.description} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-16 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+      <CTAButton href={SITE.appUrl}>Try it free</CTAButton>
+      <CTAButton href={SITE.repoUrl} variant="secondary">
+        Browse the code
+      </CTAButton>
+    </div>
+  </section>
+</BaseLayout>

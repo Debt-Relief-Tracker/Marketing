@@ -1,0 +1,129 @@
+---
+import type { Release, CommitBlurb } from '../lib/github';
+
+interface Props {
+  releases: Release[];
+  commits: CommitBlurb[];
+}
+
+const { releases, commits } = Astro.props;
+
+type Entry =
+  | { kind: 'release'; date: string; release: Release }
+  | { kind: 'commit'; date: string; commit: CommitBlurb };
+
+const entries: Entry[] = [
+  ...releases.map((release): Entry => ({ kind: 'release', date: release.publishedAt, release })),
+  ...commits.map((commit): Entry => ({ kind: 'commit', date: commit.date, commit })),
+].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+// Shown as a hover tooltip (the `title` attribute) on each <time> element.
+const preciseDateTimeFormatter = new Intl.DateTimeFormat('en-US', {
+  dateStyle: 'full',
+  timeStyle: 'long',
+});
+
+const tabs = [
+  { filter: 'all', label: 'All' },
+  { filter: 'release', label: 'Releases' },
+  { filter: 'commit', label: 'Commits' },
+] as const;
+---
+
+<div>
+  <div class="flex gap-6 border-b border-slate-100" role="tablist">
+    {tabs.map((tab, i) => (
+      <button
+        type="button"
+        class:list={[
+          'changelog-tab -mb-px border-b-2 py-2 text-sm font-medium',
+          i === 0 ? 'border-brand-600 text-brand-600' : 'border-transparent text-slate-500',
+        ]}
+        data-filter={tab.filter}
+        aria-selected={i === 0}
+      >
+        {tab.label}
+      </button>
+    ))}
+  </div>
+
+  {entries.length === 0 ? (
+    <p class="mt-12 text-slate-500">Nothing here yet.</p>
+  ) : (
+    <div class="mt-4 divide-y divide-slate-100">
+      {entries.map((entry) =>
+        entry.kind === 'release' ? (
+          <article class="changelog-entry py-8" data-type="release">
+            <div class="flex flex-wrap items-baseline justify-between gap-2">
+              <h2 class="text-xl font-semibold text-slate-900">
+                <a href={entry.release.url} class="hover:underline">
+                  {entry.release.name}
+                </a>
+              </h2>
+              <time
+                datetime={entry.release.publishedAt}
+                title={preciseDateTimeFormatter.format(new Date(entry.release.publishedAt))}
+                class="text-sm text-slate-400"
+              >
+                {dateFormatter.format(new Date(entry.release.publishedAt))}
+              </time>
+            </div>
+            <div
+              class="prose prose-slate mt-4 max-w-none prose-headings:font-semibold prose-a:text-brand-600"
+              set:html={entry.release.htmlBody}
+            />
+          </article>
+        ) : (
+          <div
+            class="changelog-entry flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-3"
+            data-type="commit"
+          >
+            <a
+              href={entry.commit.url}
+              class="min-w-0 flex-1 truncate text-sm text-slate-700 hover:text-brand-600 hover:underline"
+            >
+              {entry.commit.summary}
+            </a>
+            <span class="shrink-0 font-mono text-xs text-slate-400">{entry.commit.shortSha}</span>
+            <time
+              datetime={entry.commit.date}
+              title={preciseDateTimeFormatter.format(new Date(entry.commit.date))}
+              class="shrink-0 text-xs text-slate-400"
+            >
+              {dateFormatter.format(new Date(entry.commit.date))}
+            </time>
+          </div>
+        ),
+      )}
+    </div>
+  )}
+</div>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.changelog-tab');
+  const entries = document.querySelectorAll<HTMLElement>('.changelog-entry');
+
+  function setFilter(filter: string) {
+    entries.forEach((entry) => {
+      entry.classList.toggle('hidden', filter !== 'all' && entry.dataset.type !== filter);
+    });
+    tabs.forEach((tab) => {
+      const active = tab.dataset.filter === filter;
+      tab.setAttribute('aria-selected', String(active));
+      tab.classList.toggle('border-brand-600', active);
+      tab.classList.toggle('text-brand-600', active);
+      tab.classList.toggle('border-transparent', !active);
+      tab.classList.toggle('text-slate-500', !active);
+    });
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => setFilter(tab.dataset.filter ?? 'all'));
+  });
+</script>

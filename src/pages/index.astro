@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import FeatureCard from '../components/FeatureCard.astro';
+import CTAButton from '../components/CTAButton.astro';
+import { SITE } from '../lib/site';
+
+const features = [
+  {
+    title: 'Secure sign-in via Auth0',
+    description:
+      'Login is protected by Auth0 — bot detection, breached-password blocking, and adaptive MFA keep your account safe.',
+  },
+  {
+    title: 'Plan your payoff strategy',
+    description: 'Model avalanche, snowball, or a custom order across all your debts.',
+  },
+  {
+    title: 'Track real progress',
+    description: 'See balances drop over time and stay motivated with a clear payoff timeline.',
+  },
+  {
+    title: 'Your data, your choice',
+    description: 'Use the free hosted app, or self-host the fully open-source code yourself.',
+  },
+];
+---
+
+<BaseLayout title="Home">
+  <Hero />
+
+  <section class="mx-auto max-w-6xl px-6 pb-20">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {features.map((feature) => (
+        <FeatureCard title={feature.title} description={feature.description} />
+      ))}
+    </div>
+  </section>
+
+  <section class="border-t border-slate-100 bg-slate-50">
+    <div class="mx-auto max-w-6xl px-6 py-16 text-center">
+      <h2 class="text-2xl font-bold text-slate-900">Free to use, free to inspect</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-slate-600">
+        The hosted app at{' '}
+        <a href={SITE.appUrl} class="font-medium text-brand-600 hover:underline">
+          {SITE.appUrl.replace('https://', '')}
+        </a>{' '}
+        is free to use and supported by donations. Every line of code is public on GitHub, so you
+        can verify exactly how your data is handled — or run your own instance.
+      </p>
+      <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <CTAButton href={SITE.appUrl}>Open the app</CTAButton>
+        <CTAButton href="/open-source" variant="secondary">
+          Why open source
+        </CTAButton>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

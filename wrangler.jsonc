@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "debt-relief-marketing",
+  "name": "marketing",
   "compatibility_date": "2026-09-20",
   "main": "worker/index.ts",
   "assets": {

@@ -2,14 +2,39 @@ This is a static site built with Astro, Tailwind CSS, and TypeScript.
 
 ## Project-specific notes
 
-- Fill this section in as the project takes shape — the "why" behind
-  non-standard structure, deploy targets, or content sources belongs here so
-  future changes don't accidentally undo a deliberate decision.
-- Note here once decided: hosting/deploy target (Netlify, Vercel, Cloudflare
-  Pages, static export elsewhere), whether content comes from local
-  Markdown/MDX via Content Collections or a headless CMS, and whether any
-  pages need `output: "server"`/hybrid rendering or if the whole site is
-  fully static (`output: "static"`, the default).
+- **Hosting/deploy target:** Cloudflare Workers (Workers Builds — the
+  unified Workers product, **not** classic Cloudflare Pages, despite the
+  project living under the "Workers & Pages" dashboard). Git-connected;
+  Cloudflare runs `pnpm run build` then `npx wrangler deploy` on push to
+  `main` (see project Settings > Builds in the Cloudflare dashboard). This
+  requires an explicit `wrangler.jsonc` at the repo root with a `main` Worker
+  entrypoint — a bare `assets`-only deploy (no `main`) cannot have env
+  vars/secrets attached, since there's no Worker script to receive them. No
+  Astro SSR adapter is installed, and none should be added — `@astrojs/cloudflare`
+  v13+ (required for Astro 7+) dropped Cloudflare Pages support in favor of
+  Workers, and isn't needed anyway since `worker/index.ts` (below) fills that
+  role directly. The Astro site itself is still fully static
+  (`output: "static"`, the default) and should stay that way.
+- **`wrangler.jsonc`** wires `assets.directory: "./dist"` (the Astro build
+  output) to an `ASSETS` binding, and `main: "worker/index.ts"` as the Worker
+  script. Cloudflare serves a matching static asset first; anything that
+  doesn't match a file in `dist` (e.g. `POST /api/contact`) falls through to
+  the Worker's `fetch` handler.
+- **Server-side logic (e.g. the contact form) lives in `worker/index.ts`**,
+  a plain Cloudflare Worker (`export default { fetch(request, env) }`), typed
+  via `@cloudflare/workers-types`. This is _not_ the classic Pages Functions
+  `/functions` directory convention — that convention isn't picked up by this
+  project's Workers Builds pipeline at all. Route new server-side endpoints
+  by adding branches inside `worker/index.ts`'s `fetch` handler (or splitting
+  into helper modules imported there), not by adding files under a
+  `functions/` directory. Env/secrets come through the `env` parameter, set
+  via the Cloudflare dashboard (Settings > Variables and Secrets — only
+  available once `wrangler.jsonc` declares a `main` script) for production,
+  and a root `.dev.vars` (gitignored, see `.dev.vars.example`) for local
+  `wrangler dev` testing — separate from Astro's `import.meta.env`/`.env`,
+  which the Worker doesn't use.
+- Content is local static `.astro` pages under `src/pages/` (no CMS, no
+  Content Collections yet).
 
 ## Claude guidelines
 

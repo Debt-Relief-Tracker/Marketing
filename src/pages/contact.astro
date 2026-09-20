@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FormField from '../components/FormField.astro';
+---
+
+<BaseLayout
+  title="Contact Us"
+  description="Get in touch with the Debt Relief Tracker team — questions, bug reports, and feedback welcome."
+>
+  <section class="mx-auto max-w-2xl px-6 py-16">
+    <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Contact us</h1>
+    <p class="mt-4 text-lg text-slate-600">
+      Questions, bug reports, or feedback — we read every message.
+    </p>
+
+    <div
+      id="form-error"
+      hidden
+      class="mt-8 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 ring-1 ring-inset ring-red-200"
+    ></div>
+
+    <noscript>
+      <p class="mt-8 text-sm text-slate-500">
+        Having trouble? Email us directly at
+        <a href="mailto:support@debtrelief.win" class="underline">
+          support@debtrelief.win
+        </a>
+        .
+      </p>
+    </noscript>
+
+    <form method="POST" action="/api/contact" class="mt-8 space-y-6">
+      <div class="absolute left-[-9999px]" aria-hidden="true">
+        <label for="company">Company</label>
+        <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <FormField type="text" name="name" label="Name" required />
+      <FormField type="email" name="email" label="Email" required />
+
+      <div>
+        <label for="topic" class="block text-sm font-medium text-slate-900">
+          Topic
+        </label>
+        <select
+          id="topic"
+          name="topic"
+          class="mt-1 block w-full rounded-lg border-0 px-3 py-2 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-brand-600 sm:text-sm"
+        >
+          <option value="general">General</option>
+          <option value="support">Support</option>
+          <option value="feedback">Feedback</option>
+          <option value="partnership">Partnership</option>
+          <option value="press">Press</option>
+        </select>
+      </div>
+
+      <FormField type="textarea" name="message" label="Message" required rows={6} />
+
+      <button
+        type="submit"
+        class="inline-flex items-center justify-center rounded-lg bg-brand-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+      >
+        Send message
+      </button>
+    </form>
+  </section>
+
+  <script>
+    import { showContactStatus } from '../scripts/contact-status';
+    showContactStatus();
+  </script>
+</BaseLayout>

@@ -23,7 +23,12 @@ const REPO_API_URL = SITE.repoUrl.replace('https://github.com/', 'https://api.gi
 async function githubGet(path: string) {
   const url = `${REPO_API_URL}${path}`;
   const response = await fetch(url, {
-    headers: { Accept: 'application/vnd.github+json' },
+    headers: {
+      Accept: 'application/vnd.github+json',
+      // GitHub's API rejects requests with no User-Agent (403), and unlike Node's fetch,
+      // not every runtime (e.g. Cloudflare's build-time workerd sandbox) sets a default one.
+      'User-Agent': 'debt-relief-marketing-site',
+    },
   });
 
   if (!response.ok) {

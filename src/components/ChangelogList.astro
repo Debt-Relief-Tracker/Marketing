@@ -103,15 +103,32 @@ const tabs = [
       )}
     </div>
   )}
+
+  <p class="changelog-empty hidden mt-12 text-slate-500" data-empty-for="release">
+    No releases found.
+  </p>
+  <p class="changelog-empty hidden mt-12 text-slate-500" data-empty-for="commit">
+    No commits found.
+  </p>
 </div>
 
 <script>
   const tabs = document.querySelectorAll<HTMLButtonElement>('.changelog-tab');
   const entries = document.querySelectorAll<HTMLElement>('.changelog-entry');
+  const emptyMessages = document.querySelectorAll<HTMLElement>('.changelog-empty');
 
   function setFilter(filter: string) {
+    let visibleCount = 0;
     entries.forEach((entry) => {
-      entry.classList.toggle('hidden', filter !== 'all' && entry.dataset.type !== filter);
+      const matches = filter === 'all' || entry.dataset.type === filter;
+      entry.classList.toggle('hidden', !matches);
+      if (matches) visibleCount += 1;
+    });
+    emptyMessages.forEach((message) => {
+      message.classList.toggle(
+        'hidden',
+        !(filter === message.dataset.emptyFor && visibleCount === 0),
+      );
     });
     tabs.forEach((tab) => {
       const active = tab.dataset.filter === filter;

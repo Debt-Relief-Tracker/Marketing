@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout
+  title="About Us"
+  description="Meet Kyle and Stephanie, the couple behind Debt Relief Tracker — building the tool we wish we had on our own debt-free journey."
+>
+  <section class="mx-auto max-w-3xl px-6 py-16">
+    <div class="mt-12 space-y-8 text-slate-600">
+      <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">About us</h1>
+      <p class="mt-4 text-lg text-slate-600">
+        We're Kyle and Stephanie — and like a lot of people who use {SITE.name}, we're on our own
+        journey out of debt.
+      </p>
+      <p>
+        Kyle is a software developer, and Stephanie is a geotechnical engineer. We got married on
+        May 16, 2026, and started combining our finances, our goals, and — like most newly married
+        couples — our debt.
+      </p>
+      <p>
+        We built {SITE.name} because we wanted a clear, honest picture of where we stood and a real
+        plan to get to zero, without paying for another subscription or handing our financial data
+        to a company we couldn't verify. So Kyle built it, we started using it ourselves, and we
+        decided to open source it and offer it free to anyone else working toward the same thing.
+      </p>
+      <p>
+        We're both strong Christians, and our faith shapes how we think about money, debt, and
+        generosity — that's part of why you'll find a Bible verse about financial freedom at the
+        bottom of every page on this site.
+      </p>
+    </div>
+
+    <div class="mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+      <CTAButton href={SITE.appUrl}>Start your own journey</CTAButton>
+      <CTAButton href={SITE.repoUrl} variant="secondary">
+        View the code
+      </CTAButton>
+    </div>
+  </section>
+</BaseLayout>

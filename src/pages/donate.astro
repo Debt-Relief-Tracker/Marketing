@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
 import { SITE } from '../lib/site';
 ---
 
@@ -31,23 +32,22 @@ import { SITE } from '../lib/site';
       </p>
     </div>
 
-    <!-- TODO: add GitHub Sponsors / Patreon / Ko-fi links once accounts exist -->
     <div class="mt-10 space-y-4">
       <h2 class="text-lg font-semibold text-slate-900">Ways to donate</h2>
       <p class="text-slate-600">
-        We're setting up GitHub Sponsors, Patreon, and/or Ko-fi. Donation links will appear here
-        once those accounts are live.
+        GitHub Sponsors is pending approval. In the meantime, you can donate via Liberapay or
+        Ko-fi.
       </p>
       <div class="grid gap-4 sm:grid-cols-3">
         <div class="rounded-lg border border-dashed border-slate-300 p-4 text-center text-sm text-slate-400">
           GitHub Sponsors — coming soon
         </div>
-        <div class="rounded-lg border border-dashed border-slate-300 p-4 text-center text-sm text-slate-400">
-          Patreon — coming soon
-        </div>
-        <div class="rounded-lg border border-dashed border-slate-300 p-4 text-center text-sm text-slate-400">
-          Ko-fi — coming soon
-        </div>
+        <CTAButton href={SITE.donateLinks.liberapay} variant="secondary" class="w-full">
+          Liberapay
+        </CTAButton>
+        <CTAButton href={SITE.donateLinks.koFi} variant="secondary" class="w-full">
+          Ko-fi
+        </CTAButton>
       </div>
     </div>
 

@@ -1,0 +1,96 @@
+# Polls Debt-Relief-Tracker/Tracker for new GitHub releases and new commits to main, and triggers
+# a Cloudflare Workers Builds rebuild when either appears, so /changelog (built from release *and*
+# recent-commit data at build time, see src/lib/github.ts) stays current.
+#
+# This lives in THIS repo (not the Tracker repo) by design, so it's a poll rather than a true
+# webhook — updates land within one poll interval, not instantly. See docs/blog-plan.md's sibling
+# note in the plan file for the trade-off discussion.
+#
+# Setup required before this workflow can actually trigger rebuilds:
+#   1. In the Cloudflare dashboard, open the "marketing" Workers Builds project > Settings and
+#      create a Deploy Hook for the `main` branch.
+#   2. Add its URL as an encrypted repository SECRET (Settings > Secrets and variables > Actions >
+#      Secrets tab) named CF_DEPLOY_HOOK_URL. Do NOT add it as a plaintext Variable — anyone with
+#      this URL can trigger a rebuild.
+name: Watch Tracker activity
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  actions: write # required to read/write the LAST_SEEN_RELEASE_TAG and LAST_SEEN_COMMIT_SHA repo variables
+
+env:
+  GH_TOKEN: ${{ github.token }}
+  TRACKER_REPO: Debt-Relief-Tracker/Tracker
+
+jobs:
+  check-activity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch latest Tracker release
+        id: latest_release
+        run: |
+          # Tracker may not have cut a release yet — /releases/latest 404s in that case, which
+          # isn't an error, just "nothing to compare against yet".
+          if tag=$(gh api "repos/${TRACKER_REPO}/releases/latest" --jq .tag_name 2>/dev/null); then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Fetch latest Tracker commit
+        id: latest_commit
+        run: |
+          sha=$(gh api "repos/${TRACKER_REPO}/commits/main" --jq .sha)
+          echo "sha=${sha}" >> "$GITHUB_OUTPUT"
+
+      - name: Read last-seen release tag
+        id: previous_release
+        run: |
+          if tag=$(gh variable get LAST_SEEN_RELEASE_TAG --repo "${GITHUB_REPOSITORY}" 2>/dev/null); then
+            echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+            echo "known=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "known=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Read last-seen commit SHA
+        id: previous_commit
+        run: |
+          if sha=$(gh variable get LAST_SEEN_COMMIT_SHA --repo "${GITHUB_REPOSITORY}" 2>/dev/null); then
+            echo "sha=${sha}" >> "$GITHUB_OUTPUT"
+            echo "known=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "known=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Record current release tag as seen
+        if: >
+          steps.latest_release.outputs.exists == 'true' &&
+          (steps.previous_release.outputs.known == 'false' || steps.previous_release.outputs.tag != steps.latest_release.outputs.tag)
+        run: |
+          gh variable set LAST_SEEN_RELEASE_TAG --repo "${GITHUB_REPOSITORY}" --body "${{ steps.latest_release.outputs.tag }}"
+
+      - name: Record current commit SHA as seen
+        if: steps.previous_commit.outputs.known == 'false' || steps.previous_commit.outputs.sha != steps.latest_commit.outputs.sha
+        run: |
+          gh variable set LAST_SEEN_COMMIT_SHA --repo "${GITHUB_REPOSITORY}" --body "${{ steps.latest_commit.outputs.sha }}"
+
+      - name: Trigger Cloudflare Workers Builds rebuild
+        # Skip on the very first run for each marker (nothing "known" yet) so we don't fire a
+        # rebuild for activity that predates this workflow's setup — only rebuild on an actual
+        # *change* to either a release or the commit tip.
+        if: >
+          (steps.latest_release.outputs.exists == 'true' && steps.previous_release.outputs.known == 'true' && steps.previous_release.outputs.tag != steps.latest_release.outputs.tag) ||
+          (steps.previous_commit.outputs.known == 'true' && steps.previous_commit.outputs.sha != steps.latest_commit.outputs.sha)
+        run: |
+          if [ -z "${{ secrets.CF_DEPLOY_HOOK_URL }}" ]; then
+            echo "::error::CF_DEPLOY_HOOK_URL secret is not set — cannot trigger a rebuild. Add it under Settings > Secrets and variables > Actions > Secrets." >&2
+            exit 1
+          fi
+          curl --fail --silent --show-error -X POST "${{ secrets.CF_DEPLOY_HOOK_URL }}"

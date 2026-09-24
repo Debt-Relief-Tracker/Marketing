@@ -1,17 +1,18 @@
-# Polls Debt-Relief-Tracker/Tracker for new GitHub releases and new commits to main, and triggers
-# a Cloudflare Workers Builds rebuild when either appears, so /changelog (built from release *and*
-# recent-commit data at build time, see src/lib/github.ts) stays current.
+# Polls Debt-Relief-Tracker/Tracker for new GitHub releases and new commits to main, and pushes an
+# update to .github/tracker-watch-state.json (in this repo) when either changes, so /changelog
+# (built from release *and* recent-commit data at build time, see src/lib/github.ts) stays current.
 #
 # This lives in THIS repo (not the Tracker repo) by design, so it's a poll rather than a true
 # webhook — updates land within one poll interval, not instantly. See docs/blog-plan.md's sibling
 # note in the plan file for the trade-off discussion.
 #
-# Setup required before this workflow can actually trigger rebuilds:
-#   1. In the Cloudflare dashboard, open the "marketing" Workers Builds project > Settings and
-#      create a Deploy Hook for the `main` branch.
-#   2. Add its URL as an encrypted repository SECRET (Settings > Secrets and variables > Actions >
-#      Secrets tab) named CF_DEPLOY_HOOK_URL. Do NOT add it as a plaintext Variable — anyone with
-#      this URL can trigger a rebuild.
+# Why a committed state file instead of GitHub Actions repo variables: the default GITHUB_TOKEN
+# has no grantable permission scope for managing Actions variables/secrets via API (confirmed via
+# a live 403 "Resource not accessible by integration" from `gh variable set`) — only a personal
+# access token can do that. `contents: write` (which GITHUB_TOKEN *can* be granted) is enough to
+# commit a small state file instead, and as a bonus, that push to main is itself picked up by
+# Cloudflare Workers Builds' normal git-triggered auto-deploy — no separate Deploy Hook/secret
+# needed to trigger a rebuild.
 name: Watch Tracker activity
 
 on:
@@ -19,28 +20,35 @@ on:
     - cron: '*/15 * * * *'
   workflow_dispatch: {}
 
+# Runs are 15 minutes apart and typically finish in seconds, but this guards against a slow run
+# overlapping the next poll and racing on the state-file push.
+concurrency:
+  group: tracker-watch
+  cancel-in-progress: false
+
 permissions:
-  contents: read
-  actions: write # required to read/write the LAST_SEEN_RELEASE_TAG and LAST_SEEN_COMMIT_SHA repo variables
+  contents: write # to commit/push the state file
 
 env:
   GH_TOKEN: ${{ github.token }}
   TRACKER_REPO: Debt-Relief-Tracker/Tracker
+  STATE_FILE: .github/tracker-watch-state.json
 
 jobs:
   check-activity:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v5
+
       - name: Fetch latest Tracker release
         id: latest_release
         run: |
           # Tracker may not have cut a release yet — /releases/latest 404s in that case, which
           # isn't an error, just "nothing to compare against yet".
           if tag=$(gh api "repos/${TRACKER_REPO}/releases/latest" --jq .tag_name 2>/dev/null); then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
             echo "tag=${tag}" >> "$GITHUB_OUTPUT"
           else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "tag=" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Fetch latest Tracker commit
@@ -49,48 +57,26 @@ jobs:
           sha=$(gh api "repos/${TRACKER_REPO}/commits/main" --jq .sha)
           echo "sha=${sha}" >> "$GITHUB_OUTPUT"
 
-      - name: Read last-seen release tag
-        id: previous_release
+      - name: Read last-seen state
+        id: previous
         run: |
-          if tag=$(gh variable get LAST_SEEN_RELEASE_TAG --repo "${GITHUB_REPOSITORY}" 2>/dev/null); then
-            echo "tag=${tag}" >> "$GITHUB_OUTPUT"
-            echo "known=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "known=false" >> "$GITHUB_OUTPUT"
-          fi
+          echo "tag=$(jq -r '.releaseTag // empty' "$STATE_FILE")" >> "$GITHUB_OUTPUT"
+          echo "sha=$(jq -r '.commitSha // empty' "$STATE_FILE")" >> "$GITHUB_OUTPUT"
 
-      - name: Read last-seen commit SHA
-        id: previous_commit
-        run: |
-          if sha=$(gh variable get LAST_SEEN_COMMIT_SHA --repo "${GITHUB_REPOSITORY}" 2>/dev/null); then
-            echo "sha=${sha}" >> "$GITHUB_OUTPUT"
-            echo "known=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "known=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Record current release tag as seen
+      - name: Record new state and push
         if: >
-          steps.latest_release.outputs.exists == 'true' &&
-          (steps.previous_release.outputs.known == 'false' || steps.previous_release.outputs.tag != steps.latest_release.outputs.tag)
+          steps.latest_release.outputs.tag != steps.previous.outputs.tag ||
+          steps.latest_commit.outputs.sha != steps.previous.outputs.sha
+        env:
+          RELEASE_TAG: ${{ steps.latest_release.outputs.tag }}
+          COMMIT_SHA: ${{ steps.latest_commit.outputs.sha }}
         run: |
-          gh variable set LAST_SEEN_RELEASE_TAG --repo "${GITHUB_REPOSITORY}" --body "${{ steps.latest_release.outputs.tag }}"
+          jq -n --arg tag "$RELEASE_TAG" --arg sha "$COMMIT_SHA" \
+            '{releaseTag: (if $tag == "" then null else $tag end), commitSha: $sha}' \
+            > "$STATE_FILE"
 
-      - name: Record current commit SHA as seen
-        if: steps.previous_commit.outputs.known == 'false' || steps.previous_commit.outputs.sha != steps.latest_commit.outputs.sha
-        run: |
-          gh variable set LAST_SEEN_COMMIT_SHA --repo "${GITHUB_REPOSITORY}" --body "${{ steps.latest_commit.outputs.sha }}"
-
-      - name: Trigger Cloudflare Workers Builds rebuild
-        # Skip on the very first run for each marker (nothing "known" yet) so we don't fire a
-        # rebuild for activity that predates this workflow's setup — only rebuild on an actual
-        # *change* to either a release or the commit tip.
-        if: >
-          (steps.latest_release.outputs.exists == 'true' && steps.previous_release.outputs.known == 'true' && steps.previous_release.outputs.tag != steps.latest_release.outputs.tag) ||
-          (steps.previous_commit.outputs.known == 'true' && steps.previous_commit.outputs.sha != steps.latest_commit.outputs.sha)
-        run: |
-          if [ -z "${{ secrets.CF_DEPLOY_HOOK_URL }}" ]; then
-            echo "::error::CF_DEPLOY_HOOK_URL secret is not set — cannot trigger a rebuild. Add it under Settings > Secrets and variables > Actions > Secrets." >&2
-            exit 1
-          fi
-          curl --fail --silent --show-error -X POST "${{ secrets.CF_DEPLOY_HOOK_URL }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$STATE_FILE"
+          git commit -m "chore: record Tracker activity (release=${RELEASE_TAG:-none}, commit=${COMMIT_SHA})"
+          git push

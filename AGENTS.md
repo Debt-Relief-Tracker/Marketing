@@ -35,6 +35,40 @@ This is a static site built with Astro, Tailwind CSS, and TypeScript.
   which the Worker doesn't use.
 - Content is local static `.astro` pages under `src/pages/` (no CMS, no
   Content Collections yet).
+- **Feature-branch previews:** Cloudflare's **Worker Previews** feature
+  (launched 2026-09-22, built into Workers Builds) gives every branch other
+  than `main` its own isolated preview deployment — own URL, own state,
+  doesn't touch production — automatically on push, with the preview URL
+  posted as a PR comment. On a push to `main`, Workers Builds runs the build
+  command then the deploy command (`npx wrangler deploy`, as above); on a
+  push to any other branch it instead runs the **preview command**, which
+  defaults to `npx wrangler preview`. Requires Wrangler `4.135.0+` — already
+  satisfied by the `^4.135.0` pin in `devDependencies`.
+  - **One-time dashboard setup required, not yet done as of 2026-09-23:**
+    this Worker existed before Worker Previews launched, so it needs an
+    opt-in migration under the Worker's **Settings > Build > Branch
+    control** — confirm "Production branch" is `main` and "Preview builds"
+    is enabled. Until that's on, pushing a feature branch will not produce
+    a preview.
+  - Previews do **not** inherit production secrets by default — they start
+    from `wrangler.jsonc`'s committed config (so the `ASSETS` binding and
+    static file serving work out of the box) but `RESEND_API_KEY` and
+    `DEBT_RELIEF_API_TOKEN` (set via the dashboard for production, see
+    above) need their own **preview-scoped** values, configured separately
+    in the dashboard's Previews settings (or via `wrangler secret put
+--preview`). **Use sandbox/test values there, not the production
+    ones** — otherwise submitting the contact form on a feature-branch
+    preview sends a real email via Resend and logs a real ticket against
+    production `app.debtrelief.win`. If preview-scoped secrets are left
+    unset, `env.RESEND_API_KEY` / `env.DEBT_RELIEF_API_TOKEN` are simply
+    undefined on preview deploys and the contact form fails closed
+    (`?error=send_failed`) rather than silently hitting prod — but still
+    set real sandbox values so the form is actually testable on previews.
+  - If preview behavior ever needs to diverge from production beyond
+    secrets (e.g. a feature flag), add a `previews` block to
+    `wrangler.jsonc` alongside the top-level `vars` (see the [Previews
+    docs](https://developers.cloudflare.com/workers/previews/get-started/))
+    — don't add one speculatively before there's an actual var to diverge.
 
 ## Claude guidelines
 

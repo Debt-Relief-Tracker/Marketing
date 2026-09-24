@@ -41,15 +41,18 @@ docs/
 after the site rebuilds. See `.github/workflows/release-watch.yml` for how rebuilds are triggered
 automatically when a new release is published.
 
-## Deployment (Cloudflare Pages)
+## Deployment (Cloudflare Workers)
 
-This is a fully static site — no SSR adapter needed. Cloudflare Pages project settings:
+This is a fully static site (no SSR adapter needed) deployed to **Cloudflare Workers** via
+Workers Builds — Cloudflare's git-connected CI/CD, configured under the Worker's dashboard
+Settings, not GitHub Actions. See [AGENTS.md](AGENTS.md) for the full `wrangler.jsonc` /
+`worker/index.ts` setup.
 
-- **Build command:** `pnpm build`
-- **Build output directory:** `dist`
-- **Node version:** see `.nvmrc`
+- Push to `main` → Workers Builds runs `pnpm run build` then `npx wrangler deploy`.
+- Push to any other branch → Workers Builds runs a **Worker Preview** deploy instead, giving that
+  branch its own isolated preview URL (posted as a PR comment). See AGENTS.md's "Feature-branch
+  previews" note for the one-time dashboard setup this requires and how secrets work for previews.
 
-Normal deploys happen via Cloudflare Pages' own Git integration (auto-deploy on push to `main`).
-The `release-watch.yml` workflow additionally triggers a rebuild when the Tracker repo publishes a
-new release, via a Cloudflare Pages **Deploy Hook**. That workflow requires a `CF_DEPLOY_HOOK_URL`
-repository secret — see the workflow file for setup notes.
+The `release-watch.yml` workflow triggers a rebuild when the Tracker repo publishes a new release
+by committing an updated state file to `main` — that push is itself picked up by Workers Builds'
+normal auto-deploy, no separate Deploy Hook needed.

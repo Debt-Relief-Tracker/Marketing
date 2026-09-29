@@ -4,6 +4,7 @@
   "compatibility_date": "2026-09-20",
   "main": "worker/index.ts",
   "vars": {},
+  "routes": [{ "pattern": "debtrelief.win", "custom_domain": true }],
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",

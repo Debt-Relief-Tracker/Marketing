@@ -38,6 +38,8 @@ env:
 
 jobs:
   check-activity:
+    # Gitea Actions also reads .github/workflows, so this skips the run on the Gitea mirror.
+    if: github.server_url == 'https://github.com'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5

@@ -2,108 +2,108 @@
   "releases": [],
   "commits": [
     {
-      "sha": "e0a97e0bbee8408ad74542640db948ac8ca7daa2",
-      "summary": "Wrap footer onto two lines with edge padding on mobile",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-24T04:43:54Z",
+      "sha": "e0a97e0bbee8408ad74542640db948ac8ca7daa2",
+      "summary": "Wrap footer onto two lines with edge padding on mobile",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/e0a97e0bbee8408ad74542640db948ac8ca7daa2"
     },
     {
-      "sha": "52a773a31213dd1f644dd68ac1981be48453a84d",
-      "summary": "Save theme choice to the user's account",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-24T04:10:11Z",
+      "sha": "52a773a31213dd1f644dd68ac1981be48453a84d",
+      "summary": "Save theme choice to the user's account",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/52a773a31213dd1f644dd68ac1981be48453a84d"
     },
     {
-      "sha": "58a1f27a285c46e1325897ab566824745fecf470",
-      "summary": "Add donate modal to app footer",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-24T03:54:25Z",
+      "sha": "58a1f27a285c46e1325897ab566824745fecf470",
+      "summary": "Add donate modal to app footer",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/58a1f27a285c46e1325897ab566824745fecf470"
     },
     {
-      "sha": "43b4b931938dea2de93bbc097bbe7ad710f70a32",
-      "summary": "Add admin Users tab with last seen/login tracking",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-24T02:09:50Z",
+      "sha": "43b4b931938dea2de93bbc097bbe7ad710f70a32",
+      "summary": "Add admin Users tab with last seen/login tracking",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/43b4b931938dea2de93bbc097bbe7ad710f70a32"
     },
     {
-      "sha": "dd7ef209d5f4020ec0e99fcd7833ed679cc4eecd",
-      "summary": "Add editable display name and single-save settings modal",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-24T01:40:50Z",
+      "sha": "dd7ef209d5f4020ec0e99fcd7833ed679cc4eecd",
+      "summary": "Add editable display name and single-save settings modal",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/dd7ef209d5f4020ec0e99fcd7833ed679cc4eecd"
     },
     {
-      "sha": "0e53cb31a4e61617ee5a6038fc7ad3eae2cb8138",
-      "summary": "Fix logout to also end the Auth0 SSO session",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-21T23:51:30Z",
+      "sha": "0e53cb31a4e61617ee5a6038fc7ad3eae2cb8138",
+      "summary": "Fix logout to also end the Auth0 SSO session",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/0e53cb31a4e61617ee5a6038fc7ad3eae2cb8138"
     },
     {
-      "sha": "80634257bc85835ca09c6de60f0f3618360c8c3c",
-      "summary": "Make admin page responsive, fix debt list accordion latency",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-21T04:39:08Z",
+      "sha": "80634257bc85835ca09c6de60f0f3618360c8c3c",
+      "summary": "Make admin page responsive, fix debt list accordion latency",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/80634257bc85835ca09c6de60f0f3618360c8c3c"
     },
     {
-      "sha": "a44e4b9a872efd201da81436530ae787ad2e3e9a",
-      "summary": "mobile responsive updates",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-21T03:03:24Z",
+      "sha": "a44e4b9a872efd201da81436530ae787ad2e3e9a",
+      "summary": "mobile responsive updates",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/a44e4b9a872efd201da81436530ae787ad2e3e9a"
     },
     {
-      "sha": "b983c3c4cd29633cec2ab212785e6c420e344ec4",
-      "summary": "Clarify that verifying migrations on dev needs no extra confirmation",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-21T02:36:03Z",
+      "sha": "b983c3c4cd29633cec2ab212785e6c420e344ec4",
+      "summary": "Clarify that verifying migrations on dev needs no extra confirmation",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/b983c3c4cd29633cec2ab212785e6c420e344ec4"
     },
     {
-      "sha": "112f06c27c82313615887293e24f0dd2266ba3c9",
-      "summary": "Add support-email logging API and admin-managed API tokens",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-21T02:35:57Z",
+      "sha": "112f06c27c82313615887293e24f0dd2266ba3c9",
+      "summary": "Add support-email logging API and admin-managed API tokens",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/112f06c27c82313615887293e24f0dd2266ba3c9"
     },
     {
-      "sha": "ebb702cc39e1d6061c2ba86a3ab5ed08b35fd0bb",
-      "summary": "Add field-level encryption for sensitive financial columns",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-20T18:11:11Z",
+      "sha": "ebb702cc39e1d6061c2ba86a3ab5ed08b35fd0bb",
+      "summary": "Add field-level encryption for sensitive financial columns",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/ebb702cc39e1d6061c2ba86a3ab5ed08b35fd0bb"
     },
     {
-      "sha": "834f099b72e5655bab2420fbceb8d7c0af993299",
-      "summary": "add cloak/cloak_ecto",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-20T17:07:43Z",
+      "sha": "834f099b72e5655bab2420fbceb8d7c0af993299",
+      "summary": "add cloak/cloak_ecto",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/834f099b72e5655bab2420fbceb8d7c0af993299"
     },
     {
-      "sha": "f46b5d7e6a644fb4d51152d052b4e9feffb3c0c5",
-      "summary": "Convert all primary keys from integer to UUID",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-20T17:06:17Z",
+      "sha": "f46b5d7e6a644fb4d51152d052b4e9feffb3c0c5",
+      "summary": "Convert all primary keys from integer to UUID",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/f46b5d7e6a644fb4d51152d052b4e9feffb3c0c5"
     },
     {
-      "sha": "8d27e7cd1465bff43ba15847abeab3d9c64cb332",
-      "summary": "add note for migrations to agents.md",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-20T15:45:38Z",
+      "sha": "8d27e7cd1465bff43ba15847abeab3d9c64cb332",
+      "summary": "add note for migrations to agents.md",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/8d27e7cd1465bff43ba15847abeab3d9c64cb332"
     },
     {
-      "sha": "6e2976a6149fd05379b21ca96059a7a5ee130998",
-      "summary": "add multi-income family tracking",
       "authorName": "Kyle Menigoz",
       "date": "2026-09-20T03:53:58Z",
+      "sha": "6e2976a6149fd05379b21ca96059a7a5ee130998",
+      "summary": "add multi-income family tracking",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/6e2976a6149fd05379b21ca96059a7a5ee130998"
     }
   ]

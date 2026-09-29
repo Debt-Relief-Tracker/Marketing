@@ -13,7 +13,7 @@ to Cloudflare Pages.
 src/
 ├── components/   # Header, Footer, Hero, FeatureCard, CTAButton
 ├── layouts/      # BaseLayout.astro — <head>, SEO tags, Header/Footer
-├── lib/          # site.ts (shared constants), github.ts (build-time Releases fetch)
+├── lib/          # site.ts (shared constants), github.ts (reads committed Tracker activity data)
 ├── pages/        # index, features, open-source, donate, changelog
 └── styles/       # global.css — Tailwind v4 import + theme tokens
 docs/
@@ -36,10 +36,11 @@ docs/
 
 ## Changelog page
 
-`/changelog` fetches GitHub Releases from the Tracker repo **at build time** (see
-[`src/lib/github.ts`](src/lib/github.ts)) — there's no runtime server, so new releases only appear
-after the site rebuilds. See `.github/workflows/release-watch.yml` for how rebuilds are triggered
-automatically when a new release is published.
+`/changelog` is built from `src/data/tracker-activity.json` (see
+[`src/lib/github.ts`](src/lib/github.ts)), which the `release-watch.yml` workflow keeps up to date
+with the Tracker repo's releases and recent commits. The build itself makes no GitHub API calls
+(unauthenticated calls from Cloudflare's shared build IPs hit GitHub's rate limit). There's no
+runtime server, so new activity only appears after the site rebuilds.
 
 ## Deployment (Cloudflare Workers)
 
@@ -53,6 +54,6 @@ Settings, not GitHub Actions. See [AGENTS.md](AGENTS.md) for the full `wrangler.
   branch its own isolated preview URL (posted as a PR comment). See AGENTS.md's "Feature-branch
   previews" note for the one-time dashboard setup this requires and how secrets work for previews.
 
-The `release-watch.yml` workflow triggers a rebuild when the Tracker repo publishes a new release
-by committing an updated state file to `main` — that push is itself picked up by Workers Builds'
+The `release-watch.yml` workflow triggers a rebuild when the Tracker repo has new activity
+by committing the updated data file to `main` — that push is itself picked up by Workers Builds'
 normal auto-deploy, no separate Deploy Hook needed.

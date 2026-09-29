@@ -1,5 +1,5 @@
 import { marked } from 'marked';
-import { SITE } from './site';
+import trackerActivity from '../data/tracker-activity.json';
 
 export interface Release {
   tag: string;
@@ -18,75 +18,31 @@ export interface CommitBlurb {
   url: string;
 }
 
-const REPO_API_URL = SITE.repoUrl.replace('https://github.com/', 'https://api.github.com/repos/');
-
-async function githubGet(path: string) {
-  const url = `${REPO_API_URL}${path}`;
-  const response = await fetch(url, {
-    headers: {
-      Accept: 'application/vnd.github+json',
-      // GitHub's API rejects requests with no User-Agent (403), and unlike Node's fetch,
-      // not every runtime (e.g. Cloudflare's build-time workerd sandbox) sets a default one.
-      'User-Agent': 'debt-relief-marketing-site',
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
-  }
-
-  return response.json();
+interface StoredActivity {
+  releases: Array<Omit<Release, 'htmlBody'> & { body: string }>;
+  commits: Array<Omit<CommitBlurb, 'shortSha'>>;
 }
 
-/**
- * Fetches GitHub Releases at build time. Runs only during `astro build`/`astro dev`,
- * never in the browser — the result is baked into the static output.
- */
-export async function getReleases(): Promise<Release[]> {
-  const releases = (await githubGet('/releases')) as Array<{
-    tag_name: string;
-    name: string | null;
-    published_at: string | null;
-    body: string | null;
-    html_url: string;
-    draft: boolean;
-    prerelease: boolean;
-  }>;
+// Written by .github/workflows/release-watch.yml. Read from disk rather than fetched from the
+// GitHub API so builds make no network calls (Cloudflare's shared build IPs hit GitHub's
+// unauthenticated rate limit).
+const activity: StoredActivity = trackerActivity;
 
+/** Releases from the committed Tracker activity data, with markdown bodies rendered to HTML. */
+export async function getReleases(): Promise<Release[]> {
   return Promise.all(
-    releases
-      .filter((release) => !release.draft)
-      .map(async (release) => ({
-        tag: release.tag_name,
-        name: release.name || release.tag_name,
-        publishedAt: release.published_at ?? new Date().toISOString(),
-        htmlBody: await marked.parse(release.body ?? ''),
-        url: release.html_url,
-      })),
+    activity.releases.map(async ({ body, ...release }) => ({
+      ...release,
+      publishedAt: release.publishedAt ?? new Date().toISOString(),
+      htmlBody: await marked.parse(body),
+    })),
   );
 }
 
-/**
- * Fetches the most recent commits to `main` at build time, for a lightweight
- * "recent activity" list alongside full releases.
- */
+/** Recent commits to Tracker's `main`, for a lightweight "recent activity" list alongside releases. */
 export async function getRecentCommits(limit = 15): Promise<CommitBlurb[]> {
-  const commits = (await githubGet(`/commits?sha=main&per_page=${limit}`)) as Array<{
-    sha: string;
-    html_url: string;
-    commit: {
-      message: string;
-      author: { name: string; date: string } | null;
-    };
-  }>;
-
-  return commits.map((commit) => ({
-    sha: commit.sha,
+  return activity.commits.slice(0, limit).map((commit) => ({
+    ...commit,
     shortSha: commit.sha.slice(0, 7),
-    // Use only the first line of the commit message as the blurb — full bodies belong in the commit itself.
-    summary: commit.commit.message.split('\n')[0],
-    authorName: commit.commit.author?.name ?? 'Unknown',
-    date: commit.commit.author?.date ?? new Date().toISOString(),
-    url: commit.html_url,
   }));
 }

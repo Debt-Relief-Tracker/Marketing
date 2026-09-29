@@ -42,17 +42,15 @@ const umamiId = import.meta.env.PUBLIC_UMAMI_ID;
       rel="stylesheet"
     />
 
-    {
-      umamiUrl && umamiId && (
-        <script
-          is:inline
-          defer
-          src={`${umamiUrl}/script.js`}
-          data-website-id={umamiId}
-          data-domains="debtrelief.win"
-        />
-      )
-    }
+    {umamiUrl && umamiId ? (
+      <script
+        is:inline
+        defer
+        src={`${umamiUrl}/script.js`}
+        data-website-id={umamiId}
+        data-domains="debtrelief.win"
+      ></script>
+    ) : null}
   </head>
   <body class="flex min-h-screen flex-col font-sans">
     <Header />

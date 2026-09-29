@@ -12,6 +12,8 @@ interface Props {
 const { title, description = SITE.description } = Astro.props;
 const pageTitle = `${title} · ${SITE.name}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const umamiUrl = import.meta.env.PUBLIC_UMAMI_URL;
+const umamiId = import.meta.env.PUBLIC_UMAMI_ID;
 ---
 
 <!doctype html>
@@ -39,6 +41,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    {
+      umamiUrl && umamiId && (
+        <script
+          is:inline
+          defer
+          src={`${umamiUrl}/script.js`}
+          data-website-id={umamiId}
+          data-domains="debtrelief.win"
+        />
+      )
+    }
   </head>
   <body class="flex min-h-screen flex-col font-sans">
     <Header />

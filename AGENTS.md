@@ -30,9 +30,10 @@ This is a static site built with Astro, Tailwind CSS, and TypeScript.
   `functions/` directory. Env/secrets come through the `env` parameter, set
   via the Cloudflare dashboard (Settings > Variables and Secrets — only
   available once `wrangler.jsonc` declares a `main` script) for production,
-  and a root `.dev.vars` (gitignored, see `.dev.vars.example`) for local
-  `wrangler dev` testing — separate from Astro's `import.meta.env`/`.env`,
-  which the Worker doesn't use.
+  and a root `.env` (gitignored, see `.env.example`) for local
+  `wrangler dev` testing — Wrangler reads `.env` when no `.dev.vars` exists,
+  so don't create one. The Worker only sees these through `env`, not Astro's
+  `import.meta.env`, even though both read the same file.
 - Content is local static `.astro` pages under `src/pages/` (no CMS, no
   Content Collections yet).
 - **Feature-branch previews:** Cloudflare's **Worker Previews** feature

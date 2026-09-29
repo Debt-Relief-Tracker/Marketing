@@ -4,6 +4,9 @@ import Hero from '../components/Hero.astro';
 import FeatureCard from '../components/FeatureCard.astro';
 import CTAButton from '../components/CTAButton.astro';
 import { SITE } from '../lib/site';
+import { getReleases } from '../lib/github';
+
+const [latest] = await getReleases();
 
 const features = [
   {
@@ -34,6 +37,22 @@ const features = [
       {features.map((feature) => (
         <FeatureCard title={feature.title} description={feature.description} />
       ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 pb-20">
+    <div
+      class="flex flex-col items-start justify-between gap-4 rounded-xl border border-slate-100 p-6 sm:flex-row sm:items-center"
+    >
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900">What's new</h2>
+        <p class="mt-1 text-slate-600">
+          {latest
+            ? `Latest release: ${latest.name || latest.tag}.`
+            : 'Follow along as the project evolves.'}
+        </p>
+      </div>
+      <CTAButton href="/changelog" variant="secondary">See the changelog</CTAButton>
     </div>
   </section>
 

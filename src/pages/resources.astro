@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout
+  title="Resources"
+  description="Articles, news, and guides on getting out of debt, from the Debt Relief Tracker team."
+>
+  <section class="mx-auto max-w-3xl px-6 py-16">
+    <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Resources</h1>
+    <p class="mt-4 text-lg text-slate-600">
+      Articles, news, and guides on debt relief are coming soon. In the meantime, you can put{' '}
+      {SITE.name} to work on your own payoff plan.
+    </p>
+    <div class="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+      <CTAButton href={SITE.appUrl}>Try it free</CTAButton>
+      <CTAButton href="/features" variant="secondary">
+        See features
+      </CTAButton>
+    </div>
+  </section>
+</BaseLayout>

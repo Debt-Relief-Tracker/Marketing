@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ResourceList from '../../../components/ResourceList.astro';
+import { getAllResources, getTypes, getTags, typeLabel } from '../../../lib/resources';
+
+export async function getStaticPaths() {
+  const all = await getAllResources();
+  const facets = getTypes(all);
+  return facets.map((f) => ({ params: { type: f.slug }, props: { slug: f.slug } }));
+}
+
+const { slug } = Astro.props;
+const all = await getAllResources();
+const resources = all.filter((r) => r.type === slug);
+const title = typeLabel(slug);
+---
+
+<BaseLayout title={`${title} · Resources`} description={`Resources filtered by type: ${title}.`}>
+  <section class="mx-auto max-w-3xl px-6 py-16">
+    <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Resources</h1>
+    <p class="mt-4 text-lg text-slate-600">
+      {title}: {resources.length} {resources.length === 1 ? 'article' : 'articles'}
+    </p>
+    <ResourceList
+      resources={resources}
+      types={getTypes(all)}
+      tags={getTags(all)}
+      activeType={slug}
+    />
+  </section>
+</BaseLayout>

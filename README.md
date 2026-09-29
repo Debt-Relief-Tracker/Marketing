@@ -14,10 +14,11 @@ src/
 ├── components/   # Header, Footer, Hero, FeatureCard, CTAButton
 ├── layouts/      # BaseLayout.astro — <head>, SEO tags, Header/Footer
 ├── lib/          # site.ts (shared constants), github.ts (reads committed Tracker activity data)
-├── pages/        # index, features, open-source, donate, changelog
+├── content/      # resources/<type>/<slug>.md — one Markdown file per article
+├── pages/        # index, features, open-source, donate, changelog, resources
 └── styles/       # global.css — Tailwind v4 import + theme tokens
 docs/
-└── blog-plan.md  # plan for a future hand-written blog (not built yet)
+└── resources-authoring.md  # how to add a Resources article (agents + humans)
 ```
 
 ## Commands

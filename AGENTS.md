@@ -34,8 +34,12 @@ This is a static site built with Astro, Tailwind CSS, and TypeScript.
   `wrangler dev` testing — Wrangler reads `.env` when no `.dev.vars` exists,
   so don't create one. The Worker only sees these through `env`, not Astro's
   `import.meta.env`, even though both read the same file.
-- Content is local static `.astro` pages under `src/pages/` (no CMS, no
-  Content Collections yet).
+- Pages are static `.astro` files under `src/pages/`. **Resources articles**
+  are Markdown files in a Content Collection at
+  `src/content/resources/<type>/<slug>.md`; type/tag pages and sorting are
+  generated automatically. **Read `docs/resources-authoring.md` before
+  creating or editing an article** — publishing one never requires code
+  changes. No CMS.
 - **Feature-branch previews:** Cloudflare's **Worker Previews** feature
   (launched 2026-09-22, built into Workers Builds) gives every branch other
   than `main` its own isolated preview deployment — own URL, own state,

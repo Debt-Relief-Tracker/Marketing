@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ResourceList from '../../components/ResourceList.astro';
+import CTAButton from '../../components/CTAButton.astro';
+import { SITE } from '../../lib/site';
+import { getAllResources, getTypes, getTags } from '../../lib/resources';
+
+const resources = await getAllResources();
+---
+
+<BaseLayout
+  title="Resources"
+  description="Articles, news, and guides on getting out of debt, from the Debt Relief Tracker team."
+>
+  <section class="mx-auto max-w-3xl px-6 py-16">
+    <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Resources</h1>
+    <p class="mt-4 text-lg text-slate-600">Articles, news, and guides on getting out of debt.</p>
+    <ResourceList resources={resources} types={getTypes(resources)} tags={getTags(resources)} />
+    <div class="mt-14 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+      <CTAButton href={SITE.appUrl}>Put {SITE.name} to work</CTAButton>
+      <CTAButton href="/features" variant="secondary">
+        See features
+      </CTAButton>
+    </div>
+  </section>
+</BaseLayout>

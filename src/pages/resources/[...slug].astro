@@ -1,0 +1,57 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CTAButton from '../../components/CTAButton.astro';
+import { SITE } from '../../lib/site';
+import { getAllResources, typeLabel, tagLabel } from '../../lib/resources';
+
+export async function getStaticPaths() {
+  const all = await getAllResources();
+  return all.map((resource) => ({ params: { slug: resource.slug }, props: { resource } }));
+}
+
+const { resource } = Astro.props;
+const { Content } = await render(resource.entry);
+---
+
+<BaseLayout title={resource.title} description={resource.description}>
+  <article class="mx-auto max-w-3xl px-6 py-16">
+    <p class="text-sm text-slate-500">
+      <a href="/resources" class="hover:underline">
+        Resources
+      </a>
+    </p>
+    <div class="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+      <a
+        href={`/resources/type/${resource.type}`}
+        class="bg-brand-50 text-brand-700 rounded-full px-2.5 py-0.5 font-medium hover:underline"
+      >
+        {typeLabel(resource.type)}
+      </a>
+      <time datetime={resource.date.toISOString()}>
+        {resource.date.toLocaleDateString('en-US', { dateStyle: 'long', timeZone: 'UTC' })}
+      </time>
+    </div>
+    <h1 class="mt-3 text-3xl font-bold text-slate-900 sm:text-4xl">{resource.title}</h1>
+    <div class="prose prose-slate mt-8 max-w-none">
+      <Content />
+    </div>
+    {resource.tags.length > 0 && (
+      <ul class="mt-10 flex flex-wrap gap-2 text-xs">
+        {resource.tags.map((tag) => (
+          <li>
+            <a
+              href={`/resources/tag/${tag}`}
+              class="rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-600 hover:underline"
+            >
+              #{tagLabel(tag)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+    <div class="mt-12">
+      <CTAButton href={SITE.appUrl}>Try {SITE.name} free</CTAButton>
+    </div>
+  </article>
+</BaseLayout>

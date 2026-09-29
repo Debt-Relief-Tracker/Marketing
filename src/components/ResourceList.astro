@@ -1,0 +1,67 @@
+---
+import type { Resource, Facet } from '../lib/resources';
+import ResourceCard from './ResourceCard.astro';
+
+interface Props {
+  resources: Resource[];
+  types: Facet[];
+  tags: Facet[];
+  activeType?: string;
+  activeTag?: string;
+}
+
+const { resources, types, tags, activeType, activeTag } = Astro.props;
+const chip = 'rounded-full border px-3 py-1 text-sm';
+---
+
+<nav aria-label="Filter by type" class="mt-8 flex flex-wrap gap-2">
+  <a
+    href="/resources"
+    class:list={[
+      chip,
+      !activeType && !activeTag
+        ? 'border-brand-600 bg-brand-600 text-white'
+        : 'border-slate-200 text-slate-700',
+    ]}
+  >
+    All
+  </a>
+  {types.map((t) => (
+    <a
+      href={`/resources/type/${t.slug}`}
+      class:list={[
+        chip,
+        activeType === t.slug
+          ? 'border-brand-600 bg-brand-600 text-white'
+          : 'border-slate-200 text-slate-700',
+      ]}
+    >
+      {t.label} ({t.count})
+    </a>
+  ))}
+</nav>
+{tags.length > 0 && (
+  <nav aria-label="Filter by tag" class="mt-3 flex flex-wrap gap-2 text-sm">
+    {tags.map((t) => (
+      <a
+        href={`/resources/tag/${t.slug}`}
+        class:list={[
+          'rounded-full px-2.5 py-0.5',
+          activeTag === t.slug ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-600',
+        ]}
+      >
+        #{t.label}
+      </a>
+    ))}
+  </nav>
+)}
+
+{resources.length > 0 ? (
+  <div class="mt-10 grid gap-6">
+    {resources.map((r) => (
+      <ResourceCard resource={r} />
+    ))}
+  </div>
+) : (
+  <p class="mt-10 text-slate-600">Nothing here yet.</p>
+)}

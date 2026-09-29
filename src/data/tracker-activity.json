@@ -3,6 +3,13 @@
   "commits": [
     {
       "authorName": "Kyle Menigoz",
+      "date": "2026-09-29T19:48:12Z",
+      "sha": "3cb8af416fc1c375b33a44d96e83c123828d9b27",
+      "summary": "Add optional Umami analytics script configured via env vars",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/3cb8af416fc1c375b33a44d96e83c123828d9b27"
+    },
+    {
+      "authorName": "Kyle Menigoz",
       "date": "2026-09-24T04:43:54Z",
       "sha": "e0a97e0bbee8408ad74542640db948ac8ca7daa2",
       "summary": "Wrap footer onto two lines with edge padding on mobile",
@@ -98,13 +105,6 @@
       "sha": "8d27e7cd1465bff43ba15847abeab3d9c64cb332",
       "summary": "add note for migrations to agents.md",
       "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/8d27e7cd1465bff43ba15847abeab3d9c64cb332"
-    },
-    {
-      "authorName": "Kyle Menigoz",
-      "date": "2026-09-20T03:53:58Z",
-      "sha": "6e2976a6149fd05379b21ca96059a7a5ee130998",
-      "summary": "add multi-income family tracking",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/6e2976a6149fd05379b21ca96059a7a5ee130998"
     }
   ]
 }

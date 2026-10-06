@@ -81,7 +81,7 @@ And if you've been **sued or have a judgment** against you, skip the blog posts 
 
 ## Related reading
 
-More plain-English guides live in the [Debt Relief Tracker resources library](/resources/).
+More plain-English guides live in the [Debt Relief Tracker resources library](/resources/). If a debt has already gone to a lawsuit and judgment, [Wage Garnishment: How Much Can They Take From Your Paycheck?](/resources/article/wage-garnishment/) covers the federal caps on what can be garnished and when a court order is required.
 
 ---
 

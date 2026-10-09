@@ -83,6 +83,6 @@ More plain-English guides live in the [Debt Relief Tracker resources library](/r
 
 ---
 
-**Sources:** 15 U.S.C. §1692e, §1692g(a), §1673 (Cornell LII); 12 CFR §1006.34 (eCFR); CFPB debt collection consumer tools; FTC Debt Collection FAQs (verified live 200 OK in DEBA-86, 2026-10-05). Per the brief: URLs were accessed 2026-10-06 but **each must be re-verified live before publish** — this check stays open for Darryl at publish time. Luke 12:58 (ESV) wording per the brief; **exact ESV rendering to be re-verified at publish** per the brief's note.
+**Sources:** 15 U.S.C. §1692e, §1692g(a), §1673 (Cornell LII); 12 CFR §1006.34 (eCFR); CFPB debt collection consumer tools; FTC Debt Collection FAQs.
 
 **Required disclaimers:** Debt Relief Tracker is not a debt relief company and is not affiliated with any provider. This article is educational and is not financial, legal, or tax advice. If you've been served with a debt collection lawsuit, consult a licensed attorney in your state or a local legal aid office.

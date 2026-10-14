@@ -19,7 +19,7 @@ console.log(
 // https://astro.build/config
 export default defineConfig({
   site: 'https://debtrelief.win',
-  integrations: [sitemap()],
+  integrations: [sitemap({ filter: (page) => !page.includes('/contact/thank-you') })],
   vite: {
     plugins: [tailwindcss()],
   },

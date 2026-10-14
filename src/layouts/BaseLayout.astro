@@ -7,9 +7,10 @@ import { SITE } from '../lib/site';
 interface Props {
   title: string;
   description?: string;
+  noindex?: boolean;
 }
 
-const { title, description = SITE.description } = Astro.props;
+const { title, description = SITE.description, noindex = false } = Astro.props;
 const pageTitle = `${title} · ${SITE.name}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const umamiUrl = import.meta.env.PUBLIC_UMAMI_URL;
@@ -25,6 +26,7 @@ const umamiId = import.meta.env.PUBLIC_UMAMI_ID;
     <link rel="canonical" href={canonicalURL} />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : null}
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />

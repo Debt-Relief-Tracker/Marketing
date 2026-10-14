@@ -3,3 +3,4 @@ dist/
 node_modules/
 pnpm-lock.yaml
 src/data/tracker-activity.json
+src/content/resources/

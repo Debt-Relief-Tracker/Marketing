@@ -11,10 +11,14 @@
 # Why a committed data file instead of GitHub Actions repo variables: the default GITHUB_TOKEN
 # has no grantable permission scope for managing Actions variables/secrets via API (confirmed via
 # a live 403 "Resource not accessible by integration" from `gh variable set`) — only a personal
-# access token can do that. `contents: write` (which GITHUB_TOKEN *can* be granted) is enough to
-# commit a data file instead, and as a bonus, that push to main is itself picked up by
-# Cloudflare Workers Builds' normal git-triggered auto-deploy — no separate Deploy Hook/secret
-# needed to trigger a rebuild.
+# access token can do that. Committing a data file instead works, and as a bonus, that push to
+# main is itself picked up by Cloudflare Workers Builds' normal git-triggered auto-deploy — no
+# separate Deploy Hook/secret needed to trigger a rebuild.
+#
+# Why a deploy key for the push: the ruleset on `main` requires changes via pull request
+# (GH013), and GITHUB_TOKEN can't be added as a ruleset bypass actor. The workflow instead
+# pushes with a write-enabled deploy key (secret TRACKER_WATCH_DEPLOY_KEY) that is on the
+# ruleset's bypass list. GITHUB_TOKEN is still used for the read-only `gh api` calls.
 name: Watch Tracker activity
 
 on:
@@ -29,7 +33,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write # to commit/push the state file
+  contents: read # the state-file push uses the deploy key, not GITHUB_TOKEN
 
 env:
   GH_TOKEN: ${{ github.token }}
@@ -43,6 +47,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          # Push as a write-enabled deploy key (listed as a bypass actor on the `main` ruleset),
+          # because the ruleset requires PRs and GITHUB_TOKEN can't bypass it.
+          ssh-key: ${{ secrets.TRACKER_WATCH_DEPLOY_KEY }}
 
       - name: Fetch Tracker releases and commits
         run: |

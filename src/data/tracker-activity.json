@@ -2,109 +2,109 @@
   "releases": [],
   "commits": [
     {
-      "authorName": "Kyle Menigoz",
-      "date": "2026-09-29T19:48:12Z",
-      "sha": "3cb8af416fc1c375b33a44d96e83c123828d9b27",
-      "summary": "Add optional Umami analytics script configured via env vars",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/3cb8af416fc1c375b33a44d96e83c123828d9b27"
+      "authorName": "Kyle",
+      "date": "2026-11-02T05:11:00Z",
+      "sha": "725b47b0035e7263b112e88c6177110d625745db",
+      "summary": "Merge pull request #2 from Debt-Relief-Tracker/e2ee-spike",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/725b47b0035e7263b112e88c6177110d625745db"
     },
     {
       "authorName": "Kyle Menigoz",
-      "date": "2026-09-24T04:43:54Z",
-      "sha": "e0a97e0bbee8408ad74542640db948ac8ca7daa2",
-      "summary": "Wrap footer onto two lines with edge padding on mobile",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/e0a97e0bbee8408ad74542640db948ac8ca7daa2"
+      "date": "2026-11-02T05:06:46Z",
+      "sha": "71bad40fe8a359fb68e4943d1d08ef0dcf91e7d7",
+      "summary": "Serve the dashboard at / instead of /app",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/71bad40fe8a359fb68e4943d1d08ef0dcf91e7d7"
+    },
+    {
+      "authorName": "Kyle",
+      "date": "2026-11-02T04:48:51Z",
+      "sha": "b3cd6ccf978a3f330de80d9574cfd406f10c15ec",
+      "summary": "Merge pull request #1 from Debt-Relief-Tracker/e2ee-spike",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/b3cd6ccf978a3f330de80d9574cfd406f10c15ec"
     },
     {
       "authorName": "Kyle Menigoz",
-      "date": "2026-09-24T04:10:11Z",
-      "sha": "52a773a31213dd1f644dd68ac1981be48453a84d",
-      "summary": "Save theme choice to the user's account",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/52a773a31213dd1f644dd68ac1981be48453a84d"
+      "date": "2026-11-02T04:31:40Z",
+      "sha": "3de40cee3515db3cc1aef9c3f3bf5e26d05bdfb9",
+      "summary": "Friendlier encryption screen; merge vault controls into header; fit dashboard to viewport",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/3de40cee3515db3cc1aef9c3f3bf5e26d05bdfb9"
     },
     {
       "authorName": "Kyle Menigoz",
-      "date": "2026-09-24T03:54:25Z",
-      "sha": "58a1f27a285c46e1325897ab566824745fecf470",
-      "summary": "Add donate modal to app footer",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/58a1f27a285c46e1325897ab566824745fecf470"
+      "date": "2026-11-02T01:02:50Z",
+      "sha": "63e06633d4b5cd38ddb3c7252d93aa4f8f608cc1",
+      "summary": "Roadmap: Phase 4 cutover and Phase 10 Lows closed",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/63e06633d4b5cd38ddb3c7252d93aa4f8f608cc1"
     },
     {
       "authorName": "Kyle Menigoz",
-      "date": "2026-09-24T02:09:50Z",
-      "sha": "43b4b931938dea2de93bbc097bbe7ad710f70a32",
-      "summary": "Add admin Users tab with last seen/login tracking",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/43b4b931938dea2de93bbc097bbe7ad710f70a32"
+      "date": "2026-11-02T01:02:41Z",
+      "sha": "a09a1b4c5fd7870ce1301aa2902ba92fa721f75c",
+      "summary": "Test: recovery case (b) no longer writes plaintext after the vault exists",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/a09a1b4c5fd7870ce1301aa2902ba92fa721f75c"
     },
     {
       "authorName": "Kyle Menigoz",
-      "date": "2026-09-24T01:40:50Z",
-      "sha": "dd7ef209d5f4020ec0e99fcd7833ed679cc4eecd",
-      "summary": "Add editable display name and single-save settings modal",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/dd7ef209d5f4020ec0e99fcd7833ed679cc4eecd"
+      "date": "2026-11-02T00:16:29Z",
+      "sha": "f9fc147e4775f41e38c208500768d45346d48e22",
+      "summary": "Untrack test/browser/node_modules symlink",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/f9fc147e4775f41e38c208500768d45346d48e22"
     },
     {
       "authorName": "Kyle Menigoz",
-      "date": "2026-09-21T23:51:30Z",
-      "sha": "0e53cb31a4e61617ee5a6038fc7ad3eae2cb8138",
-      "summary": "Fix logout to also end the Auth0 SSO session",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/0e53cb31a4e61617ee5a6038fc7ad3eae2cb8138"
+      "date": "2026-11-02T00:16:17Z",
+      "sha": "f3a7504a6c567cfbe78d9ee386b0d65e69c74bcf",
+      "summary": "Merge branch 'e2ee-p1' into cut-c1",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/f3a7504a6c567cfbe78d9ee386b0d65e69c74bcf"
     },
     {
       "authorName": "Kyle Menigoz",
-      "date": "2026-09-21T04:39:08Z",
-      "sha": "80634257bc85835ca09c6de60f0f3618360c8c3c",
-      "summary": "Make admin page responsive, fix debt list accordion latency",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/80634257bc85835ca09c6de60f0f3618360c8c3c"
+      "date": "2026-11-02T00:16:17Z",
+      "sha": "5dfc388bb3eaeb32191f43c65faa4eff58e7a0ab",
+      "summary": "Remove accidentally committed dependency symlinks",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/5dfc388bb3eaeb32191f43c65faa4eff58e7a0ab"
     },
     {
       "authorName": "Kyle Menigoz",
-      "date": "2026-09-21T03:03:24Z",
-      "sha": "a44e4b9a872efd201da81436530ae787ad2e3e9a",
-      "summary": "mobile responsive updates",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/a44e4b9a872efd201da81436530ae787ad2e3e9a"
+      "date": "2026-11-02T00:16:05Z",
+      "sha": "d25469482ed9028f4ba04772f23d7f9878850c14",
+      "summary": "Merge branch 'e2ee-p2' into cut-c1",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/d25469482ed9028f4ba04772f23d7f9878850c14"
     },
     {
       "authorName": "Kyle Menigoz",
-      "date": "2026-09-21T02:36:03Z",
-      "sha": "b983c3c4cd29633cec2ab212785e6c420e344ec4",
-      "summary": "Clarify that verifying migrations on dev needs no extra confirmation",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/b983c3c4cd29633cec2ab212785e6c420e344ec4"
+      "date": "2026-11-02T00:05:09Z",
+      "sha": "6a0b5671add92a8223156645c80e183cf03c019c",
+      "summary": "Hologram layout: render Umami script (plaintext only) and allow its origin in the /app CSP",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/6a0b5671add92a8223156645c80e183cf03c019c"
     },
     {
       "authorName": "Kyle Menigoz",
-      "date": "2026-09-21T02:35:57Z",
-      "sha": "112f06c27c82313615887293e24f0dd2266ba3c9",
-      "summary": "Add support-email logging API and admin-managed API tokens",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/112f06c27c82313615887293e24f0dd2266ba3c9"
+      "date": "2026-11-01T23:42:06Z",
+      "sha": "dc33e9edf048ee386ce04febc8746dafc0853297",
+      "summary": "Phase 4 cutover: /app is the dashboard; / redirects to it",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/dc33e9edf048ee386ce04febc8746dafc0853297"
     },
     {
       "authorName": "Kyle Menigoz",
-      "date": "2026-09-20T18:11:11Z",
-      "sha": "ebb702cc39e1d6061c2ba86a3ab5ed08b35fd0bb",
-      "summary": "Add field-level encryption for sensitive financial columns",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/ebb702cc39e1d6061c2ba86a3ab5ed08b35fd0bb"
+      "date": "2026-11-01T23:39:53Z",
+      "sha": "93f2c41757f43f271d5e7422eb1089460750ef10",
+      "summary": "E2EE: refuse plaintext writes once a vault exists; strip source maps in prod build",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/93f2c41757f43f271d5e7422eb1089460750ef10"
     },
     {
       "authorName": "Kyle Menigoz",
-      "date": "2026-09-20T17:07:43Z",
-      "sha": "834f099b72e5655bab2420fbceb8d7c0af993299",
-      "summary": "add cloak/cloak_ecto",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/834f099b72e5655bab2420fbceb8d7c0af993299"
+      "date": "2026-11-01T23:35:40Z",
+      "sha": "ee2cc7f0b2f67d2c317f93720d87a4016fd3e550",
+      "summary": "E2EE: page-level unlock throttle, passphrase rule in VaultFlow, UV errors, ADR 0007 Lows",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/ee2cc7f0b2f67d2c317f93720d87a4016fd3e550"
     },
     {
       "authorName": "Kyle Menigoz",
-      "date": "2026-09-20T17:06:17Z",
-      "sha": "f46b5d7e6a644fb4d51152d052b4e9feffb3c0c5",
-      "summary": "Convert all primary keys from integer to UUID",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/f46b5d7e6a644fb4d51152d052b4e9feffb3c0c5"
-    },
-    {
-      "authorName": "Kyle Menigoz",
-      "date": "2026-09-20T15:45:38Z",
-      "sha": "8d27e7cd1465bff43ba15847abeab3d9c64cb332",
-      "summary": "add note for migrations to agents.md",
-      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/8d27e7cd1465bff43ba15847abeab3d9c64cb332"
+      "date": "2026-11-01T23:33:06Z",
+      "sha": "1cc8584ec96d561916557cb2b0cb6b84b6a04fef",
+      "summary": "Cutover: map LiveView dashboard tests to Hologram coverage, add 7 gap tests",
+      "url": "https://github.com/Debt-Relief-Tracker/Tracker/commit/1cc8584ec96d561916557cb2b0cb6b84b6a04fef"
     }
   ]
 }

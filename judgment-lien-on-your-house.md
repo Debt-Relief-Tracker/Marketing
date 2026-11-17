@@ -60,6 +60,8 @@ Two lookalikes cause most of the confusion around judgment liens:
 
 A judgment lien on your home is serious — it clouds title and can last for years — but it is not the same thing as losing the house, and the law gives homeowners real protections. Knowing which half of the story you're in is the first step to dealing with it.
 
+And a lien is only one of the tools a judgment unlocks: if a creditor comes away with a judgment but there's no income or property the law lets them reach, the judgment may go largely uncollected — [What Does Judgment-Proof Mean? When a Debt Collector Wins but Can't Collect](/resources/article/what-does-judgment-proof-mean/) covers that side of the picture.
+
 ## The short version
 
 - A money judgment can become a **lien on your real property** when the creditor records or dockets it in county records — usually with no further hearing or notice. Mechanisms vary by state (examples: NY CPLR § 5203 docketing; Cal. Code Civ. Proc. §§ 697.310–697.340 and Tex. Prop. Code ch. 52 abstract recording).
